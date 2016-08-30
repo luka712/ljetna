@@ -28,6 +28,7 @@ window.onload = function () {
 
 function preload() {
     this.load.image('background', 'assets/background.png');
+    this.load.image('background2', 'assets/background2.png');
     this.load.image('player', 'assets/player.png');
     for (i = 0; i <= 7; i++) {
         this.load.image('asteroid' + i, 'assets/asteroid' + i + '.png');
@@ -40,9 +41,21 @@ function create() {
     // STEP 7. Change backgrounds from null to array. 
     this.backgrounds = [];
 
-    this.backgrounds.push(new ScrollingBackground(game, this.add.sprite(0, 0, 'background')));
+    var background1Speed = -60;
+    var background2Speed = -40;
+    var background1Width = game.cache.getImage("background").width;
+    this.backgrounds.push(new ScrollingBackground(game, this.add.sprite(0, 0, 'background'), background1Speed));
     // STEP 8. Create another background instance amd push it to array
-    this.backgrounds.push(new ScrollingBackground(game, this.add.sprite(WIDTH, 0, 'background')));
+    this.backgrounds.push(new ScrollingBackground(game, this.add.sprite(background1Width, 0, 'background'), background1Speed));
+
+    var background2Width = game.cache.getImage("background2").width;
+    var background2Height = (HEIGHT - game.cache.getImage("background2").height) / 2;
+    this.backgrounds.push(new ScrollingBackground(game, this.add.sprite(0, background2Height, 'background2'), background2Speed));
+    this.backgrounds.push(new ScrollingBackground(game, this.add.sprite(background2Width, background2Height, 'background2'), background2Speed));
+    // STEP 8. Create another background instance amd push it to array
+    sprite = this.add.sprite(0, 0, 'background2');
+    sprite.position.x = sprite.width;
+    this.backgrounds.push(new ScrollingBackground(game, sprite, -50));
 
     // STEP 16: Create player instance
     // Try running game after this step. There should be movable player. 
